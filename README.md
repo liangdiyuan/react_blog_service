@@ -1,18 +1,13 @@
 # service
 
+后台使用egg+mysql搭建。
 前端：https://github.com/liangdiyuan/react_blog
 
 ## QuickStart
 
-<!-- add docs here for user -->
-
-see [egg docs][egg] for more detail.
-
-### Development
-
 ```bash
-$ npm i
-$ npm run dev
+$ npm i or yarn add
+$ npm run dev or yarn dev
 $ open http://localhost:7001/
 ```
 
