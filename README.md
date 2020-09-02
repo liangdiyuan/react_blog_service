@@ -6,8 +6,12 @@
 ## QuickStart
 
 ```bash
-$ npm i or yarn add
-$ npm run dev or yarn dev
+$ npm i 
+# or
+$ yarn add
+$ npm run dev 
+# or
+$ yarn dev
 $ open http://localhost:7001/
 ```
 
