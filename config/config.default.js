@@ -46,11 +46,11 @@ module.exports = (appInfo) => {
     csrf: {
       enable: false,
     },
-    domainWhiteList: ["*"],
+    domainWhiteList: ["http://127.0.0.1:3000", "http://localhost:3000"],
   };
 
   config.cors = {
-    origin: "http://127.0.0.1:3000", //只允许这个域进行访问接口
+    // origin: "http://127.0.0.1:3000,http://localhost:3000", //只允许这个域进行访问接口
     credentials: true, // 允许cookie可以跨域
     allowMethods: "GET,HEAD,PUT,POST,DELETE,PATCH",
   };
