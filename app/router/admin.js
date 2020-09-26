@@ -4,7 +4,7 @@ module.exports = (app) => {
   const { router, controller } = app;
   const adminauth = app.middleware.adminauth();
   router.post("/admin/login", controller.admin.main.Login);
-  router.post(
+  router.get(
     "/admin/getArticleTypeList",
     adminauth,
     controller.admin.main.getArticleTypeList
@@ -14,14 +14,19 @@ module.exports = (app) => {
     adminauth,
     controller.admin.main.createArticle
   );
-  router.post(
+  router.get(
     "/admin/getArticleById",
     adminauth,
     controller.admin.main.getArticleById
   );
-  router.post(
+  router.get(
     "/admin/getArticleList",
     adminauth,
     controller.admin.main.getArticleList
+  );
+  router.post(
+    "/admin/deleteArticleById",
+    adminauth,
+    controller.admin.main.deleteArticleById
   );
 };

@@ -113,7 +113,30 @@ class MainController extends Controller {
     `;
 
     const results = await this.app.mysql.query(sql);
-    this.ctx.body = { data: results };
+    this.ctx.body = { data: results, msg: "请求成功", code: 0 };
+  }
+
+  async deleteArticleById() {
+    const { ctx } = this;
+    const { id } = ctx.request.body;
+
+    if (!id && id !== 0) {
+      return (ctx.body = {
+        code: -1,
+        data: {},
+        msg: "缺少参数",
+      });
+    }
+
+    const result = await this.app.mysql.delete("article", { id: id });
+
+    const insertSuccess = result.affectedRows === 1;
+    const insertId = result.insertId;
+    ctx.body = {
+      code: 0,
+      data: { insertSuccess, insertId },
+      msg: "删除成功",
+    };
   }
 }
 
