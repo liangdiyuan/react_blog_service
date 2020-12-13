@@ -72,7 +72,7 @@ class MainController extends Controller {
   async getArticleById() {
     try {
       const { ctx } = this;
-      const { id } = ctx.params;
+      const { id } = ctx.query;
       const sql = `
         SELECT article.id as id, 
         article.title as title, 
@@ -80,15 +80,14 @@ class MainController extends Controller {
         article.article_content as articleContent, 
         article.view_count as viewCount, 
         FROM_UNIXTIME(article.create_time,'%Y-%m-%d %H:%i:%s') as createTime, 
-        article_type.type_name as typeName 
+        article_type.id as typeId 
         FROM article LEFT JOIN article_type ON article.type_id = article_type.id 
-        WHERE article_type.id = ?
+        WHERE article.id = ?
         `;
-
       const result = await this.app.mysql.query(sql, [id]);
       ctx.body = {
         msg: "请求成功",
-        data: result,
+        data: result[0] || {},
         code: 0,
       };
     } catch (error) {
@@ -105,7 +104,6 @@ class MainController extends Controller {
     SELECT article.id as id, 
     article.title as title, 
     article.introduce as introduce, 
-    article.article_content as articleContent, 
     article.view_count as viewCount, 
     FROM_UNIXTIME(article.create_time,'%Y-%m-%d %H:%i:%s') as createTime, 
     article_type.type_name as typeName 
@@ -114,6 +112,29 @@ class MainController extends Controller {
 
     const results = await this.app.mysql.query(sql);
     this.ctx.body = { data: results, msg: "请求成功", code: 0 };
+  }
+
+  async updateArticle() {
+    const { ctx } = this;
+    const { id, typeId, title, articleContent, introduce } = ctx.request.body;
+    // 修改数据，将会根据主键 ID 查找，并更新
+    const row = {
+      id: id,
+      type_id: typeId,
+      title: title,
+      article_content: articleContent,
+      introduce: introduce,
+    };
+
+    const result = await this.app.mysql.update("article", row);
+
+    const insertSuccess = result.affectedRows === 1;
+    const insertId = result.insertId;
+    ctx.body = {
+      code: 0,
+      data: { insertSuccess, insertId },
+      msg: "修改成功",
+    };
   }
 
   async deleteArticleById() {
